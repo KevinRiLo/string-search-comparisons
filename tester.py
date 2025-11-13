@@ -35,8 +35,16 @@ def multi_boyer_moore(text, pattern): # Method runs Boyer-Moore search with mult
     print(f"Run time of Boyer-Moore algorithm: {total_time:.6f} seconds")
 
 patterns = ["hi", "hello", "Hello", "how are you", "Tell me", "Muse", "was now gone"]
+single_pattern = ["Telemachus"]
 with open("odyssey.txt", "r") as file:
     test_string = file.read()
+    file.close()
+print("\n\nMulti pattern testing:\n\n")
 multi_naive(test_string, patterns)
 multi_kmp(test_string, patterns)
 multi_boyer_moore(test_string, patterns)
+
+print("\n\nSingle pattern testing:\n\n")
+multi_naive(test_string, single_pattern)
+multi_kmp(test_string, single_pattern)
+multi_boyer_moore(test_string, single_pattern)

@@ -51,15 +51,16 @@ def kmp(text, pattern): # KMP search algorithm
             j += 1
 
             if j == len(pattern):
-                result.append(i - j)
+                return True
+                #result.append(i - j)
                 j = lps[j - 1]
         else:
             if j != 0:
                 j = lps[j - 1]
             else:
                 i += 1
-    
-    return result #This returns all indexes of matches
+    return False
+    #return result #This returns all indexes of matches
 
 def bad_character_heuristic(pattern): # Algorithm fills out bad character table for use in Boyer_Moore algorithm
     m = len(pattern) # m = length of pattern
