@@ -1,3 +1,9 @@
+
+
+# This file contains all of the string-search algorithms 
+# and the helper algorithms needed.
+
+
 def naive(text, pattern): # naive search algorithm
     t = list(text) # convert string to a list of characters
     p = list(pattern) # convert pattern to a list of characters
