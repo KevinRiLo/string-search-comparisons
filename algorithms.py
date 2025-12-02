@@ -7,16 +7,17 @@
 def naive(text, pattern): # naive search algorithm
     t = list(text) # convert string to a list of characters
     p = list(pattern) # convert pattern to a list of characters
-    result = False
+    is_matching = False
+    result = []
     for i in range(len(t) - len(p)):
         for j in range(len(p)):
             if t[i+j] != p[j]: # check if pattern matches current index of string
-                result = False
+                is_matching = False
                 break
             else:
-                result = True
-        if result:
-            return result
+                is_matching = True
+        if is_matching:
+            result.append(i)
     return result
 
 
@@ -57,16 +58,14 @@ def kmp(text, pattern): # KMP search algorithm
             j += 1
 
             if j == len(pattern):
-                return True
-                #result.append(i - j)
+                result.append(i - j)
                 j = lps[j - 1]
         else:
             if j != 0:
                 j = lps[j - 1]
             else:
                 i += 1
-    return False
-    #return result 
+    return result 
 
 def bad_character_heuristic(pattern): # Algorithm fills out bad character table for use in Boyer_Moore algorithm
     m = len(pattern) # m = length of pattern
@@ -84,7 +83,7 @@ def boyer_moore(text, pattern): # Boyer-Moore search algorithm
     n = len(t) # n = length of t
     m = len(p) # m = length of p
     bc_table = bad_character_heuristic(p) # Initialize B-C table
-
+    matches = []
     i = m-1
     while i < n:
         j = m-1
@@ -92,7 +91,7 @@ def boyer_moore(text, pattern): # Boyer-Moore search algorithm
             i = i-1
             j = j-1
         if j == -1:
-            return True # Match found
+            matches.append(i) # Match found
         i = i + max(bc_table.get(t[i]), m-j)
-    return False    # No match found in entire text
+    return matches
 

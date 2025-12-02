@@ -44,10 +44,10 @@ def multi_boyer_moore(text, pattern): # Method runs Boyer-Moore search with mult
     return total_time
 
 # Multiple patterns
-patterns = ["hi", "hello", "Hello", "how are you", "Tell me", "Muse", "was now gone"]
+patterns = []
 # Single pattern
 single_pattern = ["Then Jove's daughter Minerva came up to them, having assumed the form and voice of Mentor."]
-
+# single_pattern = ["Hello"]
 # Plot values
 x = ["Naive", "KMP", "Boyer-Moore"]
 y = []
@@ -56,6 +56,11 @@ z = []
 
 with open("odyssey.txt", "r") as file:
     test_string = file.read().replace('\n', ' ') # Reads file and replaces new lines with a space character
+    file.close()
+
+with open("words.txt", "r") as file:
+    content = file.read().replace('\n', ' ')
+    patterns = content.split()
     file.close()
 
 print("\n\nMulti pattern testing:\n\n")
@@ -71,13 +76,13 @@ z.append(multi_boyer_moore(test_string, single_pattern))
 # Plot the runtimes of the algorithms when using multiple patterns
 plt.bar(x, y)
 plt.xlabel("Algorithm")
-plt.ylabel("Run time (sec)")
+plt.ylabel("Runtime (sec)")
 plt.title("Multi-Pattern Runtimes")
 plt.show()
 
 # Plot the runtimes of the algorithms when using one pattern
 plt.bar(x, z)
 plt.xlabel("Algorithm")
-plt.ylabel("Run time (sec)")
+plt.ylabel("Runtime (sec)")
 plt.title("Single-Pattern Runtimes")
 plt.show()
