@@ -95,3 +95,72 @@ def boyer_moore(text, pattern): # Boyer-Moore search algorithm
         i = i + max(bc_table.get(t[i]), m-j)
     return matches
 
+class Node:
+    def __init__(self):
+        self.child = {}
+        self.fail = None
+        self.output = []
+
+def build_trie(patterns):
+    root = Node()
+
+    for pattern in patterns:
+        curr = root
+        for i in pattern:
+            if i in curr.child:
+                curr = curr.child[i]
+            else:
+                new_node = Node()
+                curr.child[i] = new_node
+                curr = new_node
+        curr.output.append(pattern)
+
+    return root
+
+def build_failure_links(root):
+    queue = []
+
+    root.fail = root
+    
+    for i, node in root.child.items():
+        node.fail = root
+        queue.append(node)
+    
+    head = 0
+    while head < len(queue):
+        curr = queue[head]
+        head += 1
+    
+        for i, next_node in curr.child.items():
+            queue.append(next_node)
+
+            f = curr.fail
+            while f is not root and i not in f.child:
+                f = f.fail
+            
+            if i in f.child:
+                next_node.fail = f.child[i]
+            else:
+                next_node.fail = root
+            next_node.output += next_node.fail.output
+
+def search(text, root):
+    curr = root
+    matches = []
+
+    for i, c in enumerate(text):
+
+        while curr is not root and c not in curr.child:
+            curr = curr.fail
+
+
+        if c in curr.child:
+            curr = curr.child[c]
+        else:
+            curr = root
+
+        for pattern in curr.output:
+            matches.append((pattern, i))
+
+    return matches
+

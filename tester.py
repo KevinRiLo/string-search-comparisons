@@ -48,16 +48,28 @@ def multi_boyer_moore(text, pattern): # Method runs Boyer-Moore search with mult
     print(f"Run time of Boyer-Moore algorithm: {total_time:.6f} seconds")
     return total_time
 
+def multi_aho_corasick(text, patterns):
+    start_time = time.time()
+    time.perf_counter()
+
+    root = algorithms.build_trie(patterns)
+    algorithms.build_failure_links(root)
+    print(algorithms.search(text, root))
+    total_time = time.time() - start_time
+
+    print(f"Run time of Aho-Corasick algorithm: {total_time:.6f} seconds")
+    return total_time
+
 # Multiple patterns
 patterns = []
 # Single pattern
 single_pattern = ["Then Jove's daughter Minerva came up to them, having assumed the form and voice of Mentor."]
-# single_pattern = ["Hello"]
 # Plot values
 x = [1, 10, 100, 300, 600, 1000]
 y1 = []
 y2 = []
 y3 = []
+y4 = []
 
 with open("odyssey.txt", "r") as file:
     test_string = file.read().replace('\n', ' ') # Reads file and replaces new lines with a space character
@@ -94,12 +106,22 @@ y3.append(multi_boyer_moore(test_string, patterns[:300]))
 y3.append(multi_boyer_moore(test_string, patterns[:600]))
 y3.append(multi_boyer_moore(test_string, patterns))
 
+print("\n\nAho-Corasick algorithm testing:\n\n")
+y4.append(multi_aho_corasick(test_string, single_pattern))
+y4.append(multi_aho_corasick(test_string, patterns[:10]))
+y4.append(multi_aho_corasick(test_string, patterns[:100]))
+y4.append(multi_aho_corasick(test_string, patterns[:300]))
+y4.append(multi_aho_corasick(test_string, patterns[:600]))
+y4.append(multi_aho_corasick(test_string, patterns))
+
 plt.plot(x,y1, label="Naive", marker='o')
 plt.plot(x,y2, label="KMP", marker='o')
 plt.plot(x,y3, label="Boyer-Moore", marker='o')
+plt.plot(x,y4, label="Aho-Corasick", marker='o')
 plt.xlabel("Number of Patterns")
 plt.ylabel("Runtime (sec)")
 plt.title("Algorithm Runtimes Over Different Numbers of Patterns")
+plt.legend()
 plt.show()
 
 
