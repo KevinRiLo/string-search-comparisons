@@ -7,11 +7,6 @@ import matplotlib.pyplot as plt
 # At the end of the testing, this program creates and shows a plot of the results.
 
 
-# TODO: Edit each algorithm to return the runtime after everysingle pattern so the 
-# plot will be more accurate.
-
-
-
 def multi_naive(text, pattern): # Method runs naive search with multiple patterns
     start_time = time.time()
     time.perf_counter()
@@ -54,7 +49,7 @@ def multi_aho_corasick(text, patterns):
 
     root = algorithms.build_trie(patterns)
     algorithms.build_failure_links(root)
-    print(algorithms.search(text, root))
+    print(algorithms.aho_corasick(text, root))
     total_time = time.time() - start_time
 
     print(f"Run time of Aho-Corasick algorithm: {total_time:.6f} seconds")
@@ -71,10 +66,12 @@ y2 = []
 y3 = []
 y4 = []
 
+# Open and read text
 with open("odyssey.txt", "r") as file:
     test_string = file.read().replace('\n', ' ') # Reads file and replaces new lines with a space character
     file.close()
 
+# Open and read patterns
 with open("words.txt", "r") as file:
     content = file.read().replace('\n', ' ')
     patterns = content.split()
@@ -114,6 +111,7 @@ y4.append(multi_aho_corasick(test_string, patterns[:300]))
 y4.append(multi_aho_corasick(test_string, patterns[:600]))
 y4.append(multi_aho_corasick(test_string, patterns))
 
+# Create plot of algorithm runtimes based on number of patterns
 plt.plot(x,y1, label="Naive", marker='o')
 plt.plot(x,y2, label="KMP", marker='o')
 plt.plot(x,y3, label="Boyer-Moore", marker='o')

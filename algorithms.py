@@ -1,5 +1,3 @@
-
-
 # This file contains all of the string-search algorithms 
 # and the helper algorithms needed.
 
@@ -95,12 +93,14 @@ def boyer_moore(text, pattern): # Boyer-Moore search algorithm
         i = i + max(bc_table.get(t[i]), m-j)
     return matches
 
+# Node class used in Aho-Corasick algorithm
 class Node:
     def __init__(self):
         self.child = {}
         self.fail = None
         self.output = []
 
+# Aho-Corasick helper method to build the trie structure
 def build_trie(patterns):
     root = Node()
 
@@ -117,6 +117,7 @@ def build_trie(patterns):
 
     return root
 
+# Aho-Corasick helper method to build failure links in the trie
 def build_failure_links(root):
     queue = []
 
@@ -144,7 +145,8 @@ def build_failure_links(root):
                 next_node.fail = root
             next_node.output += next_node.fail.output
 
-def search(text, root):
+# Main Aho-Corasick search function
+def aho_corasick(text, root):
     curr = root
     matches = []
 
